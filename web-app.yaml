@@ -14,11 +14,18 @@ spec:
       labels:
         app: webapp
     spec:
+      volumes:
+        - name: mongo-storage
+          persistentVolumeClaim:
+            claimName: mongo-pvc
       containers:
         - name: webapp
           image: mongo-express:latest
           ports:
             - containerPort: 8081
+          volumeMounts:
+            - name: mongo-storage
+              mountPath: /data/db
           env:
             - name: ME_CONFIG_MONGODB_SERVER
               valueFrom:
